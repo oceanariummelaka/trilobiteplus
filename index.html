@@ -1,55 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>WebAR Trilobite</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!doctype html>
+<html>
+    <head>
+        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+        <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
+        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
+    </head>
 
-    <link rel="stylesheet" href="./styles.css">
-    
-   
- <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.1.3/webcomponents-loader.js"></script>
- <script src="https://unpkg.com/intersection-observer@0.5.1/intersection-observer.js"></script>
- <script src="https://unpkg.com/resize-observer-polyfill@1.5.0/dist/ResizeObserver.js"></script> 
- <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
+    <body style="margin: 0; overflow: hidden;">
+        <a-scene
+            vr-mode-ui="enabled: false;"
+            loading-screen="enabled: false;"
+            renderer="logarithmicDepthBuffer: true;"
+            arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+            id="scene"
+            embedded
+            gesture-detector
+        >
+            <a-assets>
+                <a-asset-item
+                    id="animated-asset"
+                    src="assets/asset.glb"
+                ></a-asset-item>
+            </a-assets>
 
-  </head> 
-<body>
-  <div class="row">
-  <div id="card">
-    <model-viewer camera-controls touch-action="pan-y" 
-                  autoplay ar ar-modes="webxr scene-viewer" 
-                  scale="0.2 0.2 0.2" 
-                  shadow-intensity="0"
-                  src="assets/asset.glb"
-                  ios-src="assets/asset.usdz"
-                  alt="A 3D model of Trilobite">
+            <a-marker
+                id="animated-marker"
+                type="pattern"
+                preset="custom"
+                url="assets/marker.patt"
+                raycaster="objects: .clickable"
+                emitevents="true"
+                cursor="fuse: false; rayOrigin: mouse;"
+                id="markerA"
+            >
+                <a-entity
+                    id="bowser-model"
+                    scale="0.2011990052750392 0.2011990052750392 0.2011990052750392"
+                    animation-mixer="loop: repeat"
+                    gltf-model="#animated-asset"
+                    class="clickable"
+                    gesture-handler
+                ></a-entity>
+            </a-marker>
 
-    </model-viewer>
- <section class="attribution">
-      <span>
-        <h1>TrilobiteXR</h1>
-        <span>Click AR if you device not support XR<a href="https://oceanariummelaka.github.io/trilobiteplus/" target="_blank"><h1>AR</h1></a></span>
-<p><h2>Trilobite Fact</h2>
-<br> Trilobites were present on Earth for more than 300 million years. This shows just how successful they were at adapting and evolving.  
-<br> In comparison, our ancestors have been around for only six million years, with modern humans only appearing about 200,000 years ago. 
-<br> That means that trilobites were around for more than 50,000 times longer than modern humans have been on the planet! </p>
-      </span>
-
-     </section>
-  
-  <!-- 💁 Include both scripts below to support all browsers! -->
-
-  <!-- Loads <model-viewer> for modern browsers: -->
-  <script type="module"
-      src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
-  </script>
-
-  <!-- Loads <model-viewer> for old browsers like IE11: -->
-  <script nomodule
-      src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js">
-  </script>
+            <a-entity camera></a-entity>
+        </a-scene>
 <audio src="music.mp3" autoplay loop></audio>
     </body>
 </html>
